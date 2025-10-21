@@ -1,6 +1,7 @@
 import os
 import base64
 import requests
+
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Keep slave registry and helper methods here
