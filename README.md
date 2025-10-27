@@ -2,6 +2,11 @@
 
 This repository contains a master-slave architecture for distributed multi-type file processing using Flask and HTTP. The system supports 6 different processing types: image processing, text analysis, embedding generation, OCR, audio analysis, and document processing. The master receives files, distributes them to registered slaves based on processing type, and collects the processed results.
 
+<div align="center">
+  <img src="image.png" alt="Master-Slave Distributed Processing Architecture" width="700" height="400">
+  <p><em>System Architecture Overview - Master-Slave Distributed Processing Service with Multi-Type File Processing</em></p>
+</div>
+
 ## Project Structure
 
 ```
