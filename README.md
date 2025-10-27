@@ -2,24 +2,62 @@
 
 This repository contains a master-slave architecture for distributed multi-type file processing using Flask and HTTP. The system supports 6 different processing types: image processing, text analysis, embedding generation, OCR, audio analysis, and document processing. The master receives files, distributes them to registered slaves based on processing type, and collects the processed results.
 
-## Project structure (refactored)
+## Project Structure
 
-- `master.py` - Thin runner that creates the master Flask app using the `master_service` package.
-- `slave.py` - Thin runner that creates the slave Flask app using the `slave_service` package and attempts registration.
-- `master_service/` - Package containing master application code:
-  - `app.py` - App factory (`create_app`).
-  - `routes.py` - Flask route handlers for master endpoints with multi-type task routing.
-  - `worker.py` - Worker/utility functions: slave registry, task distribution, request sending, and result saving.
-- `slave_service/` - Package containing slave application code:
-  - `app.py` - App factory (`create_app`).
-  - `routes.py` - Flask route handlers for slave endpoints with multi-type processing support.
-  - `processing.py` - Image processing (grayscale conversion).
-  - `text_processing.py` - Text analysis (sentiment, statistics, keywords).
-  - `embedding_processing.py` - Vector embedding generation (TF-IDF).
-  - `ocr_processing.py` - Optical Character Recognition from images.
-  - `audio_processing.py` - Audio file analysis (WAV format).
-  - `document_processing.py` - Document processing (PDF, DOCX, text extraction).
-- `processed_results/` - Directory where the master saves processed files, organized by processing type.
+```
+os-project/
+├── master.py                           # Main entry point for master server
+├── slave.py                            # Main entry point for slave server with auto-registration
+├── client.py                           # Testing client for API endpoints
+├── .env.example                        # Environment configuration template
+├── master_service/                     # Master server application package
+│   ├── __init__.py                    # Package initialization
+│   ├── app.py                         # Flask application factory and configuration
+│   ├── routes.py                      # API endpoint handlers and task routing logic
+│   └── worker.py                      # Slave management and task distribution system
+├── slave_service/                      # Slave server application package
+│   ├── __init__.py                    # Package initialization  
+│   ├── app.py                         # Flask application factory with registration
+│   ├── routes.py                      # Multi-type processing endpoint handlers
+│   ├── processing.py                  # Image processing and grayscale conversion
+│   ├── text_processing.py             # Text analysis, sentiment, and statistics
+│   ├── embedding_processing.py        # TF-IDF vector embedding generation
+│   ├── ocr_processing.py              # Optical Character Recognition engine
+│   ├── audio_processing.py            # WAV audio file analysis and features
+│   └── document_processing.py         # PDF and DOCX text extraction
+└── processed_results/                  # Output directory for processed files
+    ├── image/                         # Grayscale converted images
+    ├── text/                          # Text analysis results
+    ├── embedding/                     # Generated vector embeddings
+    ├── ocr/                           # Extracted text from images
+    ├── audio/                         # Audio analysis data
+    └── document/                      # Document processing results
+```
+
+### File Descriptions
+
+**Core Application Files:**
+- **`master.py`** - Lightweight launcher that initializes the master Flask application using the master_service package
+- **`slave.py`** - Lightweight launcher that initializes the slave Flask application and handles automatic registration with master
+- **`client.py`** - Command-line testing utility for sending files to master and testing different processing types
+
+**Master Service Package:**
+- **`app.py`** - Flask application factory with configuration management and middleware setup
+- **`routes.py`** - HTTP endpoint handlers for task assignment, slave registration, and status checking
+- **`worker.py`** - Core business logic for slave registry management, task distribution, and result collection
+
+**Slave Service Package:**
+- **`app.py`** - Flask application factory with automatic master registration and health monitoring
+- **`routes.py`** - HTTP endpoint handlers for receiving and processing multi-type tasks from master
+- **`processing.py`** - Image processing module for grayscale conversion and format handling
+- **`text_processing.py`** - Natural language processing for sentiment analysis, word statistics, and keyword extraction
+- **`embedding_processing.py`** - Machine learning module for TF-IDF vectorization and feature extraction
+- **`ocr_processing.py`** - Optical Character Recognition engine for text extraction from images
+- **`audio_processing.py`** - Audio signal processing for WAV file analysis and feature computation
+- **`document_processing.py`** - Document parser for PDF and DOCX text extraction and metadata analysis
+
+**Output Structure:**
+- **`processed_results/`** - Organized storage directory where the master saves all processed files, categorized by processing type for easy retrieval and management
 
 ## Requirements
 
