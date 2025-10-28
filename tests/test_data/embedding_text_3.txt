@@ -1,1 +1,0 @@
-Computer vision enables machines to interpret and understand visual information from images.
